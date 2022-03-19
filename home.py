@@ -73,8 +73,3 @@ class InputPage:
       return (1, self.inp.get_text()) if self.done == 1 else (-1, None)
 
 
-os.environ['SDL'] = '25012002'
-
-# Run home screen to input file path
-path_input = InputPage(name='Robot Path Finding', size=(0, 0, 800, 600), title='Map file:')
-option, path = path_input.run()
