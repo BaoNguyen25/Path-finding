@@ -1,6 +1,7 @@
 import os
 import home
 import graph
+import view
 
 # Create pygame window
 os.environ['SDL'] = '25012002'
@@ -13,9 +14,10 @@ option, path = path_input.run()
 if option == 1:
    print('User enters file path:', path)
    try:
-      view_map = graph.Map()
-      view_size, view_grid = view_map.load(path)
-
+       view_map = graph.Map()
+       view_size, view_grid = view_map.load(path)
+       view = view.View(view_map, view_grid, view_size)
+       view.run()
    except Exception as e:
       print(str(e))
       exit()
