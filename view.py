@@ -5,7 +5,10 @@ from pygame.locals import *
 # Import search algorithms
 from algo.bfs import bfs
 from algo.dfs import dfs
-
+from algo.a_star import a_star
+from algo.greedy_bfs import greedy_bfs
+from algo.ids import ids
+from algo.ucs import ucs
 
 # Import extensions
 from ext.eztext import Input as TextHolder
@@ -99,7 +102,7 @@ class View:
 
       # Display options for algorithms
       prev_y = title_rect.y + 8
-      self.search_names      = ['Bread-First Search', 'Depth-First Search']
+      self.search_names      = ['Bread-First Search', 'Depth-First Search', 'Uniform-Cost Search', 'Iterative Deepening Search', 'Greedy-Best First Search', 'A* Search']
 
       for idx, e in enumerate(self.search_names):
          opt_box = font.render('{}. {}'.format(idx + 1, e), True, pg.Color('black'))
@@ -115,7 +118,7 @@ class View:
       pg.draw.rect(self.surface, pg.Color('white'), outline_box_rect, 1)
 
       inp_x, inp_y = outline_box_rect.x + 4, outline_box_rect.y + 4
-      self.inp = TextHolder(x=inp_x, y=inp_y, maxlength=1, width=15, font=font, restricted='12', prompt=' Enter choice: ')
+      self.inp = TextHolder(x=inp_x, y=inp_y, maxlength=1, width=15, font=font, restricted='123456', prompt=' Enter choice: ')
       self.inp.draw(self.surface)
 
       # Update changes
@@ -131,6 +134,14 @@ class View:
          target_found, cost, path = bfs(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
       elif algorithm == 'Depth-First Search':
          target_found, cost, path = dfs(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
+      elif algorithm == 'Greedy-Best First Search':
+         target_found, cost, path = greedy_bfs(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
+      elif algorithm == 'Uniform-Cost Search':
+         target_found, cost, path = ucs(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
+      elif algorithm == 'Iterative Deepening Search':
+         target_found, cost, path = ids(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
+      elif algorithm == 'A* Search':
+         target_found, cost, path = a_star(s=self.map.S, g=self.map.G, w=self.map.border.w, h=self.map.border.h, limited=self.obstacle)
 
       self.display_path(target_found, cost, path, pg.Color('green3'))
 
